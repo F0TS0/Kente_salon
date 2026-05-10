@@ -189,9 +189,32 @@
           <span class="en">Book Now</span><span class="et">Broneeri</span>
           <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
         </a>
+        <button id="nav-toggle" type="button" class="md:hidden flex items-center justify-center w-10 h-10 -mr-2 text-ink-900" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <svg class="nav-icon-bars" width="22" height="12" viewBox="0 0 22 12" fill="none" aria-hidden="true">
+            <path d="M0 1H22M0 6H22M0 11H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          <svg class="nav-icon-x hidden" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
+
+  <!-- ============== MOBILE NAV (drawer + backdrop) ============== -->
+  <div id="mobile-nav-backdrop" class="md:hidden fixed inset-0 z-30 bg-ink-900/20 opacity-0 pointer-events-none transition-opacity duration-200" aria-hidden="true"></div>
+  <div id="mobile-nav" class="md:hidden fixed inset-x-0 top-16 z-30 bg-cream-50 border-b border-ink-900/10 shadow-xl transform -translate-y-full transition-transform duration-300 ease-out" aria-hidden="true">
+    <nav class="max-w-[1400px] mx-auto px-5 py-4 flex flex-col text-ink-900">
+      <a class="py-4 border-b border-ink-900/5 font-display text-[24px] tracking-tight hover:text-clay-600" href="#services"><span class="en">Services</span><span class="et">Teenused</span></a>
+      <a class="py-4 border-b border-ink-900/5 font-display text-[24px] tracking-tight hover:text-clay-600" href="#gallery"><span class="en">Gallery</span><span class="et">Galerii</span></a>
+      <a class="py-4 border-b border-ink-900/5 font-display text-[24px] tracking-tight hover:text-clay-600" href="#location"><span class="en">Visit</span><span class="et">Asukoht</span></a>
+      <a class="py-4 font-display text-[24px] tracking-tight hover:text-clay-600" href="#booking"><span class="en">Booking</span><span class="et">Broneeri</span></a>
+      <div class="seg sm:hidden mt-6 self-start !bg-cream-200">
+        <button data-set-lang="en" class="lang-btn !text-ink-900 active">EN</button>
+        <button data-set-lang="et" class="lang-btn !text-ink-900">ET</button>
+      </div>
+    </nav>
+  </div>
 
   <main id="top">
 
@@ -701,6 +724,40 @@
       else if (d.type === '__deactivate_edit_mode') tweaks.classList.remove('open');
     });
     try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
+
+    // ---------- MOBILE NAV ----------
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
+    const navIconBars = navToggle.querySelector('.nav-icon-bars');
+    const navIconX = navToggle.querySelector('.nav-icon-x');
+    function setNavOpen(open) {
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      navIconBars.classList.toggle('hidden', open);
+      navIconX.classList.toggle('hidden', !open);
+      mobileNav.classList.toggle('-translate-y-full', !open);
+      mobileNav.classList.toggle('translate-y-0', open);
+      mobileNav.setAttribute('aria-hidden', open ? 'false' : 'true');
+      mobileNavBackdrop.classList.toggle('opacity-0', !open);
+      mobileNavBackdrop.classList.toggle('pointer-events-none', !open);
+      document.body.classList.toggle('overflow-hidden', open);
+    }
+    navToggle.addEventListener('click', () => {
+      setNavOpen(navToggle.getAttribute('aria-expanded') !== 'true');
+    });
+    mobileNavBackdrop.addEventListener('click', () => setNavOpen(false));
+    mobileNav.addEventListener('click', e => {
+      // Close on tap of a nav link, but not on the lang-toggle buttons
+      if (e.target.closest('a')) setNavOpen(false);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') setNavOpen(false);
+    });
+    window.addEventListener('resize', () => {
+      // md breakpoint = 768px — close drawer if user crosses into desktop layout
+      if (window.innerWidth >= 768 && navToggle.getAttribute('aria-expanded') === 'true') setNavOpen(false);
+    });
 
     // ---------- INIT ----------
     document.getElementById('year').textContent = new Date().getFullYear();
