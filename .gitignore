@@ -1,0 +1,17 @@
+node_modules
+dist
+.vite
+.DS_Store
+.venv
+__pycache__
+*.pyc
+
+# downloaded media (re-fetchable via scrape.py / gallery-dl)
+downloads
+
+# saved-page reference material from a browser "Save Page As" — not site content
+Kente Salon/Instagram.html
+Kente Salon/Instagram_files/
+
+# original site delivery archive (extracted to "Kente Salon/")
+Kente Salon.zip

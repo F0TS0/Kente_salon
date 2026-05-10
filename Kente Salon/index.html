@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Jaypee Salon — Barbering by appointment, Tallinn</title>
+  <meta name="description" content="Jaypee Salon: barbering by appointment in Tallinn. Madara 31. Book online." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            cream: { 50: '#FAF5EC', 100: '#F4ECE0', 200: '#EADFCD', 300: '#DCCDB2' },
+            ink:   { 950: '#100E0C', 900: '#1B1714', 800: '#2A2421', 700: '#3D3530', 500: '#6B5F56' },
+            clay:  { 600: '#B04A2A', 700: '#8E3A20' },
+            ochre: { 500: '#C99445', 600: '#A87530' },
+            moss:  { 700: '#1F5D43' },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --accent: #B04A2A;
+      --accent-ink: #FAF5EC;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #F4ECE0;
+      color: #1B1714;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    .font-display { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+    .accent { color: var(--accent); }
+    .bg-accent { background-color: var(--accent); color: var(--accent-ink); }
+    .border-accent { border-color: var(--accent); }
+    .ring-accent { --tw-ring-color: var(--accent); }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .display-xl { font-family: 'Fraunces', serif; font-weight: 400; letter-spacing: -0.035em; line-height: 0.92; font-variation-settings: "opsz" 144; }
+    .display-lg { font-family: 'Fraunces', serif; font-weight: 400; letter-spacing: -0.03em;  line-height: 0.95; font-variation-settings: "opsz" 96;  }
+    .display-md { font-family: 'Fraunces', serif; font-weight: 400; letter-spacing: -0.02em;  line-height: 1.02; font-variation-settings: "opsz" 64;  }
+
+    /* Photo placeholder: striped with monospace label.
+       OWNER: replace each .photo-slot with an <img> at the same aspect-ratio. */
+    .photo-slot {
+      position: relative;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(135deg,
+          rgba(27,23,20,0.05) 0 14px,
+          rgba(27,23,20,0.09) 14px 28px);
+      background-color: #DCCDB2;
+      isolation: isolate;
+    }
+    .photo-slot::after {
+      content: attr(data-img);
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end;
+      padding: 14px 16px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      color: rgba(27,23,20,0.62);
+    }
+    .photo-slot::before {
+      content: ""; position: absolute; left: 14px; top: 14px;
+      width: 8px; height: 8px; border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(176,74,42,0.15);
+    }
+
+    /* Thin section seam — three hairlines + one accent dot */
+    .seam { display: block; width: 100%; height: 18px; }
+
+    .row-link { transition: padding-left .25s ease, color .2s ease; }
+    .row-link:hover { padding-left: 6px; color: var(--accent); }
+
+    @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+    .marquee-track { animation: marquee 60s linear infinite; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 22px; border-radius: 999px;
+      font-weight: 500; font-size: 14px; letter-spacing: 0.01em;
+      transition: transform .15s ease, background-color .2s ease, color .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: var(--accent-ink); }
+    .btn-primary:hover { background: #1B1714; }
+    .btn-ghost { color: #1B1714; border: 1px solid rgba(27,23,20,0.25); }
+    .btn-ghost:hover { border-color: #1B1714; }
+    .btn-dark { background: #1B1714; color: #F4ECE0; }
+    .btn-dark:hover { background: var(--accent); }
+
+    .gallery-item { transition: transform .4s ease; }
+    .gallery-item:hover { transform: scale(1.015); }
+
+    .lightbox { background: rgba(16,14,12,0.92); backdrop-filter: blur(6px); }
+
+    .map-frame iframe { width: 100%; height: 100%; border: 0; filter: contrast(1.02) saturate(0.85); }
+
+    .arrow { transition: transform .2s ease; }
+    a:hover > .arrow, button:hover > .arrow { transform: translate(2px, -2px); }
+
+    [data-lang="et"] .en, [data-lang="en"] .et { display: none; }
+
+    /* Tweaks panel */
+    .tweaks {
+      position: fixed; right: 16px; bottom: 16px; z-index: 60;
+      width: 280px; background: #1B1714; color: #F4ECE0;
+      border-radius: 14px; padding: 16px; font-family: 'Inter', sans-serif;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      transform: translateY(140%); transition: transform .3s ease;
+    }
+    .tweaks.open { transform: translateY(0); }
+    .tweaks h4 { font-family: 'Fraunces', serif; font-size: 18px; letter-spacing: -0.01em; }
+    .tweaks label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.65; display:block; margin-bottom:8px; }
+    .swatch { width: 28px; height: 28px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; }
+    .swatch.active { border-color: #F4ECE0; }
+    .seg { display:inline-flex; background:#2A2421; border-radius: 999px; padding: 3px; }
+    .seg button { padding: 6px 12px; border-radius: 999px; font-size: 12px; }
+    .seg button.active { background: var(--accent); color:#FAF5EC; }
+
+    /* Booking-only badge — used near every CTA */
+    .by-appt {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .by-appt::before {
+      content:""; width:6px; height:6px; border-radius:999px; background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(176,74,42,0.18);
+    }
+  </style>
+</head>
+<body data-lang="en" class="bg-cream-100 text-ink-900 selection:bg-clay-600 selection:text-cream-50">
+
+  <!-- ============== NAV ============== -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-cream-100/85 border-b border-ink-900/10">
+    <div class="max-w-[1400px] mx-auto px-5 md:px-10 h-16 md:h-20 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-3">
+        <!-- Mark: clipper bar over a J — original simple glyph -->
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect x="0" y="0" width="28" height="28" rx="6" fill="var(--accent)"/>
+          <path d="M5 9H23M16 6V18C16 20.7614 13.7614 23 11 23C8.23858 23 6 20.7614 6 18" stroke="#FAF5EC" stroke-width="2" stroke-linecap="square" fill="none"/>
+        </svg>
+        <span class="font-display text-[20px] md:text-[22px] tracking-tight">Jaypee <span class="text-ink-500">Salon</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-[13.5px] text-ink-800">
+        <a class="hover:text-clay-600" href="#services"><span class="en">Services</span><span class="et">Teenused</span></a>
+        <a class="hover:text-clay-600" href="#gallery"><span class="en">Gallery</span><span class="et">Galerii</span></a>
+        <a class="hover:text-clay-600" href="#location"><span class="en">Visit</span><span class="et">Asukoht</span></a>
+        <a class="hover:text-clay-600" href="#booking"><span class="en">Booking</span><span class="et">Broneeri</span></a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <div class="seg hidden sm:inline-flex !bg-cream-200">
+          <button data-set-lang="en" class="lang-btn !text-ink-900 active">EN</button>
+          <button data-set-lang="et" class="lang-btn !text-ink-900">ET</button>
+        </div>
+        <a href="https://smartscheduling.com/jaypeesalon" target="_blank" rel="noopener" class="btn btn-primary !py-2.5 !px-4 text-[13px]">
+          <span class="en">Book Now</span><span class="et">Broneeri</span>
+          <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============== HERO ============== -->
+    <section class="relative">
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-8 md:pb-14">
+        <div class="grid md:grid-cols-12 gap-6 md:gap-10 items-end">
+          <div class="md:col-span-7">
+            <div class="eyebrow text-clay-600 mb-6 flex items-center gap-3">
+              <span class="inline-block w-6 h-px bg-clay-600"></span>
+              <span class="en">Est. Tallinn · Madara 31</span>
+              <span class="et">Asutatud Tallinn · Madara 31</span>
+            </div>
+            <h1 class="display-xl text-[14vw] md:text-[9.2vw] lg:text-[148px]">
+              <span class="en">Sharp cuts.<br/><span class="italic font-light text-clay-600">By appointment.</span></span>
+              <span class="et">Teravad lõiked.<br/><span class="italic font-light text-clay-600">Ette broneerides.</span></span>
+            </h1>
+            <p class="mt-8 max-w-md text-[16px] md:text-[17px] leading-[1.55] text-ink-700">
+              <span class="en">A one-chair barbershop in the heart of Tallinn. Skin fades, beard sculpt, line-ups — done slowly, properly, and only by booking.</span>
+              <span class="et">Üksiku tooliga juuksurisalong Tallinna südames. Skin fade, habeme kujundus, line-up — rahulikult, korralikult ja ainult ette broneerides.</span>
+            </p>
+            <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <a href="https://smartscheduling.com/jaypeesalon" target="_blank" rel="noopener" class="btn btn-primary">
+                <span class="en">Book a chair</span><span class="et">Broneeri tool</span>
+                <svg class="arrow" width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </a>
+              <a href="#gallery" class="btn btn-ghost">
+                <span class="en">View work</span><span class="et">Vaata töid</span>
+                <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg>
+              </a>
+              <span class="by-appt"><span class="en">By appointment only</span><span class="et">Ainult ette broneerides</span></span>
+            </div>
+          </div>
+
+          <div class="md:col-span-5">
+            <video autoplay muted loop playsinline preload="auto" poster="images/jay.jpg" class="aspect-[4/5] w-full object-cover bg-cream-200">
+              <source src="videos/hero.mp4" type="video/mp4">
+            </video>
+            <div class="mt-3 flex items-center justify-between text-[11px] font-mono text-ink-500">
+              <span>01 / HERO</span>
+              <span class="en">Shot in-house</span><span class="et">Salongis pildistatud</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strap marquee — barbering only -->
+      <div class="border-y border-ink-900/15 bg-cream-50 overflow-hidden">
+        <div class="flex marquee-track whitespace-nowrap py-4 text-ink-800 font-display text-[28px] md:text-[34px] tracking-tight">
+          <div class="flex shrink-0 gap-10 pr-10 items-center">
+            <span>Skin fades</span><span class="accent">✻</span>
+            <span class="italic font-light">Taper</span><span class="accent">✻</span>
+            <span>Line-ups</span><span class="accent">✻</span>
+            <span class="italic font-light">Beard sculpt</span><span class="accent">✻</span>
+            <span>Hot towel</span><span class="accent">✻</span>
+            <span class="italic font-light">Kid cuts</span><span class="accent">✻</span>
+            <span>Locs taper</span><span class="accent">✻</span>
+          </div>
+          <div class="flex shrink-0 gap-10 pr-10 items-center" aria-hidden="true">
+            <span>Skin fades</span><span class="accent">✻</span>
+            <span class="italic font-light">Taper</span><span class="accent">✻</span>
+            <span>Line-ups</span><span class="accent">✻</span>
+            <span class="italic font-light">Beard sculpt</span><span class="accent">✻</span>
+            <span>Hot towel</span><span class="accent">✻</span>
+            <span class="italic font-light">Kid cuts</span><span class="accent">✻</span>
+            <span>Locs taper</span><span class="accent">✻</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== ABOUT ============== -->
+    <section id="about" class="bg-cream-100">
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-20 md:py-28">
+        <div class="grid md:grid-cols-12 gap-10">
+          <div class="md:col-span-3">
+            <div class="eyebrow text-ink-500 mb-4">02 — <span class="en">About</span><span class="et">Meist</span></div>
+          </div>
+          <div class="md:col-span-9">
+            <p class="display-md text-[34px] md:text-[52px] text-ink-900 max-w-[20ch]">
+              <span class="en">A barbershop made at home in <em class="italic font-light accent">Tallinn</em>.</span>
+              <span class="et">Juuksurisalong, mis on kodus <em class="italic font-light accent">Tallinnas</em>.</span>
+            </p>
+            <div class="mt-10 grid sm:grid-cols-2 gap-8 text-[15.5px] leading-[1.65] text-ink-700 max-w-3xl">
+              <p>
+                <span class="en">Jaypee Salon is a one-chair shop on Madara 31, run by Jay. Every appointment gets the room — no walk-ins, no overlap, no rushing.</span>
+                <span class="et">Jaypee Salon on üheainsa tooliga salong aadressil Madara 31, mida juhib Jay. Iga broneering saab terve ruumi — ilma järjekordadeta ja kiirustamiseta.</span>
+              </p>
+              <p>
+                <span class="en">Bring snacks, bring your headphones, leave looking like the sharpest version of yourself. Booking is the only way in.</span>
+                <span class="et">Võta kaasa näksid ja kõrvaklapid — lahku iseenda teravaima versioonina. Sisse pääseb ainult broneerides.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10"><div id="rule-1"></div></div>
+    </section>
+
+    <!-- ============== SERVICES ============== -->
+    <section id="services" class="bg-cream-100">
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-20 md:py-28">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+          <div>
+            <div class="eyebrow text-ink-500 mb-4">03 — <span class="en">The chair</span><span class="et">Tool</span></div>
+            <h2 class="display-lg text-[44px] md:text-[80px]">
+              <span class="en">One barber.</span>
+              <span class="et">Üks juuksur.</span>
+            </h2>
+          </div>
+          <p class="max-w-sm text-ink-700 text-[15px] leading-relaxed">
+            <span class="en">Pick a service, pick a time. Every booking is a one-on-one session with Jay.</span>
+            <span class="et">Vali teenus, vali aeg. Iga broneering on isiklik aeg Jayga.</span>
+          </p>
+        </div>
+
+        <!-- JAY — Single chair: portrait left, service list right -->
+        <article class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          <div class="lg:col-span-5">
+            <img src="images/jay.jpg" alt="Jay, barber at Jaypee Salon" loading="lazy" class="aspect-[4/5] w-full object-cover"/>
+            <div class="mt-6 flex items-baseline justify-between gap-4">
+              <div>
+                <div class="eyebrow text-clay-600 mb-2"><span class="en">Barbering</span><span class="et">Juukselõikus</span></div>
+                <h3 class="font-display text-[44px] md:text-[60px] tracking-tight leading-none">Jay</h3>
+                <a href="https://www.instagram.com/jaythabarber7/" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 text-[14px] text-ink-700 hover:text-clay-600">
+                  @jaythabarber7
+                  <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </a>
+              </div>
+              <a href="https://smartscheduling.com/jaypeesalon" target="_blank" rel="noopener" class="btn btn-dark !py-2.5 !px-4 text-[12.5px]">
+                <span class="en">Book Jay</span><span class="et">Broneeri Jay</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <ul class="divide-y divide-ink-900/10 text-[15.5px] border-t border-ink-900/10">
+              <li class="row-link py-5 flex justify-between items-baseline gap-6">
+                <span class="font-display text-[22px] md:text-[26px] tracking-tight"><span class="en">Skin / bald fade</span><span class="et">Skin / bald fade</span></span>
+                <span class="font-mono text-ink-500 text-[12px] shrink-0">45 min</span>
+              </li>
+              <li class="row-link py-5 flex justify-between items-baseline gap-6">
+                <span class="font-display text-[22px] md:text-[26px] tracking-tight"><span class="en">Taper &amp; line-up</span><span class="et">Taper &amp; line-up</span></span>
+                <span class="font-mono text-ink-500 text-[12px] shrink-0">30 min</span>
+              </li>
+              <li class="row-link py-5 flex justify-between items-baseline gap-6">
+                <span class="font-display text-[22px] md:text-[26px] tracking-tight"><span class="en">Beard sculpt &amp; hot towel</span><span class="et">Habeme kujundus &amp; kuum rätik</span></span>
+                <span class="font-mono text-ink-500 text-[12px] shrink-0">30 min</span>
+              </li>
+              <li class="row-link py-5 flex justify-between items-baseline gap-6">
+                <span class="font-display text-[22px] md:text-[26px] tracking-tight"><span class="en">Locs taper / shape-up</span><span class="et">Locs taper / shape-up</span></span>
+                <span class="font-mono text-ink-500 text-[12px] shrink-0">45 min</span>
+              </li>
+              <li class="row-link py-5 flex justify-between items-baseline gap-6">
+                <span class="font-display text-[22px] md:text-[26px] tracking-tight"><span class="en">Cut &amp; beard combo</span><span class="et">Lõikus &amp; habe</span></span>
+                <span class="font-mono text-ink-500 text-[12px] shrink-0">60 min</span>
+              </li>
+              <li class="row-link py-5 flex justify-between items-baseline gap-6">
+                <span class="font-display text-[22px] md:text-[26px] tracking-tight"><span class="en">Kid cut (under 12)</span><span class="et">Lapse lõikus (alla 12)</span></span>
+                <span class="font-mono text-ink-500 text-[12px] shrink-0">30 min</span>
+              </li>
+            </ul>
+            <!-- OWNER: pricing intentionally omitted — drop a third column with €XX per row when ready. -->
+            <div class="mt-8 flex items-center gap-4">
+              <span class="by-appt"><span class="en">Booking required</span><span class="et">Broneering nõutav</span></span>
+              <span class="text-ink-500 text-[13px]">·</span>
+              <span class="text-ink-500 text-[13px] font-mono"><span class="en">No walk-ins</span><span class="et">Ilma broneeringuta ei teeninda</span></span>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10"><div id="rule-2"></div></div>
+    </section>
+
+    <!-- ============== GALLERY ============== -->
+    <section id="gallery" class="bg-cream-100">
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-20 md:py-28">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+          <div>
+            <div class="eyebrow text-ink-500 mb-4">04 — <span class="en">Recent work</span><span class="et">Hiljutised tööd</span></div>
+            <h2 class="display-lg text-[44px] md:text-[80px]">
+              <span class="en">From the chair.</span>
+              <span class="et">Toolist.</span>
+            </h2>
+          </div>
+          <p class="max-w-sm text-ink-700 text-[15px] leading-relaxed">
+            <span class="en">Tap any image to view larger. Owner: drop new photos into the JS array — see the <code class="font-mono text-[12.5px] text-clay-700">galleryImages</code> comment below.</span>
+            <span class="et">Puuduta pilti suuremalt vaatamiseks. Omanik: lisa uued pildid JS-massiivi.</span>
+          </p>
+        </div>
+
+        <!-- Gallery grid. OWNER: replace each .photo-slot with <img loading="lazy" src="…" alt="…"/> in the same aspect-ratio class -->
+        <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+          <!-- placeholders rendered by JS so the grid is data-driven & supports drop-in -->
+        </div>
+      </div>
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10"><div id="rule-3"></div></div>
+    </section>
+
+    <!-- ============== LOCATION ============== -->
+    <section id="location" class="bg-cream-100">
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-20 md:py-28">
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
+          <div class="lg:col-span-5">
+            <div class="eyebrow text-ink-500 mb-4">05 — <span class="en">Visit</span><span class="et">Külasta</span></div>
+            <h2 class="display-lg text-[44px] md:text-[72px]">
+              <span class="en">Madara 31, <span class="italic font-light accent">Tallinn</span>.</span>
+              <span class="et">Madara 31, <span class="italic font-light accent">Tallinn</span>.</span>
+            </h2>
+
+            <dl class="mt-10 grid grid-cols-2 gap-y-6 gap-x-4 max-w-md text-[14.5px]">
+              <dt class="eyebrow text-ink-500"><span class="en">Address</span><span class="et">Aadress</span></dt>
+              <dd>Madara tn 31<br/>10613 Tallinn<br/>Eesti</dd>
+
+              <dt class="eyebrow text-ink-500"><span class="en">Booking</span><span class="et">Broneerimine</span></dt>
+              <dd><span class="en">By appointment only.</span><span class="et">Ainult ette broneerides.</span></dd>
+            </dl>
+
+            <div class="mt-10 flex flex-wrap gap-3">
+              <a href="https://www.openstreetmap.org/?mlat=59.4306&amp;mlon=24.7228#map=18/59.4306/24.7228" target="_blank" rel="noopener" class="btn btn-ghost"><span class="en">Open in Maps</span><span class="et">Ava kaardil</span></a>
+              <a href="https://smartscheduling.com/jaypeesalon" target="_blank" rel="noopener" class="btn btn-primary">
+                <span class="en">Book a chair</span><span class="et">Broneeri tool</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="map-frame aspect-[4/3] lg:aspect-auto lg:h-[560px] w-full bg-cream-200 border border-ink-900/10 overflow-hidden">
+              <iframe
+                title="Map of Madara tn 31, Tallinn"
+                loading="lazy"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=24.7138%2C59.4261%2C24.7318%2C59.4351&amp;layer=mapnik&amp;marker=59.4306%2C24.7228"
+              ></iframe>
+            </div>
+            <p class="mt-3 text-[11px] font-mono text-ink-500">// MAP — OpenStreetMap, marker at 59.4306, 24.7228</p>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10"><div id="rule-4"></div></div>
+    </section>
+
+    <!-- ============== BOOKING ============== -->
+    <section id="booking" class="bg-ink-900 text-cream-100">
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-32">
+        <div class="grid lg:grid-cols-12 gap-10 items-end">
+          <div class="lg:col-span-7">
+            <div class="eyebrow text-clay-600 mb-4">06 — <span class="en">Booking</span><span class="et">Broneerimine</span></div>
+            <h2 class="display-xl text-[56px] md:text-[112px] text-cream-50">
+              <span class="en">Pick a time.<br/><span class="italic font-light accent">We'll be ready.</span></span>
+              <span class="et">Vali aeg.<br/><span class="italic font-light accent">Oleme valmis.</span></span>
+            </h2>
+          </div>
+          <div class="lg:col-span-5">
+            <p class="text-cream-100/75 text-[15.5px] leading-relaxed max-w-md">
+              <span class="en">All visits are by appointment — there are no walk-ins. Pick your service and time, you'll get a confirmation right away. No deposit on first appointments.</span>
+              <span class="et">Kõik külastused ainult ette broneerides — ilma broneeringuta ei teeninda. Vali teenus ja aeg, saad kohe kinnituse. Esimesel korral ettemaksu pole.</span>
+            </p>
+
+            <a href="https://smartscheduling.com/jaypeesalon" target="_blank" rel="noopener" class="mt-8 group block bg-clay-600 hover:bg-cream-50 hover:text-ink-900 text-cream-50 transition-colors">
+              <div class="px-6 md:px-8 py-6 md:py-7 flex items-center justify-between gap-6">
+                <div>
+                  <div class="font-mono text-[11px] tracking-widest opacity-80">smartscheduling.com/jaypeesalon</div>
+                  <div class="font-display text-[28px] md:text-[34px] tracking-tight mt-1 leading-none">
+                    <span class="en">Open booking →</span><span class="et">Ava broneering →</span>
+                  </div>
+                </div>
+                <svg width="44" height="44" viewBox="0 0 44 44" fill="none" class="shrink-0 arrow">
+                  <circle cx="22" cy="22" r="21" stroke="currentColor" stroke-width="1"/>
+                  <path d="M16 28L28 16M28 16H18M28 16V26" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+                </svg>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== FOOTER ============== -->
+    <footer class="bg-ink-950 text-cream-100">
+      <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-16">
+        <div class="grid md:grid-cols-12 gap-10">
+          <div class="md:col-span-5">
+            <div class="font-display text-[44px] md:text-[60px] tracking-tight leading-none">Jaypee <span class="italic font-light text-clay-600">Salon</span></div>
+            <p class="mt-4 text-cream-100/70 max-w-sm text-[14.5px]">
+              <span class="en">Barbering by appointment, on Madara 31.</span>
+              <span class="et">Juukselõikus ette broneerides, Madara 31.</span>
+            </p>
+          </div>
+          <div class="md:col-span-3">
+            <div class="eyebrow text-cream-100/55 mb-4"><span class="en">Find us</span><span class="et">Leia meid</span></div>
+            <ul class="space-y-2 text-[14.5px]">
+              <li><a class="hover:text-clay-600" href="https://www.instagram.com/jaythabarber7/" target="_blank" rel="noopener">@jaythabarber7 <span class="text-cream-100/45">— <span class="en">barber</span><span class="et">juuksur</span></span></a></li>
+              <li><a class="hover:text-clay-600" href="https://smartscheduling.com/jaypeesalon" target="_blank" rel="noopener"><span class="en">Booking</span><span class="et">Broneerimine</span> ↗</a></li>
+            </ul>
+          </div>
+          <div class="md:col-span-4">
+            <div class="eyebrow text-cream-100/55 mb-4"><span class="en">Visit</span><span class="et">Külasta</span></div>
+            <address class="not-italic text-[14.5px] leading-relaxed">
+              Madara tn 31<br/>10613 Tallinn, Eesti
+            </address>
+          </div>
+        </div>
+
+        <div id="rule-footer" class="my-12"></div>
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-[12px] font-mono text-cream-100/55">
+          <div>© <span id="year"></span> Jaypee Salon. <span class="en">All rights reserved.</span><span class="et">Kõik õigused kaitstud.</span></div>
+          <div><span class="en">Site v1 — owner edits welcome.</span><span class="et">Veebileht v1 — toimetus oodatud.</span></div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ============== LIGHTBOX ============== -->
+  <div id="lightbox" class="lightbox fixed inset-0 z-50 hidden items-center justify-center p-6">
+    <button id="lightbox-close" aria-label="Close" class="absolute top-5 right-5 text-cream-50 text-2xl">×</button>
+    <div id="lightbox-content" class="max-w-[1100px] w-full">
+      <div id="lightbox-slot" class="photo-slot aspect-[4/5] w-full" data-img=""></div>
+      <div class="flex justify-between items-center mt-3 text-cream-100/70 font-mono text-[12px]">
+        <button id="lb-prev" class="hover:text-cream-50">← prev</button>
+        <span id="lb-count"></span>
+        <button id="lb-next" class="hover:text-cream-50">next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== TWEAKS PANEL ============== -->
+  <div id="tweaks" class="tweaks">
+    <div class="flex items-center justify-between mb-4">
+      <h4>Tweaks</h4>
+      <button id="tweaks-close" class="opacity-60 hover:opacity-100" aria-label="Close">×</button>
+    </div>
+
+    <div class="mb-5">
+      <label>Accent</label>
+      <div class="flex items-center gap-3">
+        <button class="swatch" data-accent="#B04A2A" style="background:#B04A2A" title="Terracotta"></button>
+        <button class="swatch" data-accent="#1F5D43" style="background:#1F5D43" title="Emerald"></button>
+        <button class="swatch" data-accent="#C99445" style="background:#C99445" title="Ochre"></button>
+        <button class="swatch" data-accent="#8E3A20" style="background:#8E3A20" title="Burnt clay"></button>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <label>Section seam</label>
+      <div class="seg">
+        <button data-rule="subtle">Subtle</button>
+        <button data-rule="dense" class="active">Default</button>
+        <button data-rule="off">Off</button>
+      </div>
+    </div>
+
+    <div class="mb-1">
+      <label>Language</label>
+      <div class="seg">
+        <button data-set-lang="en" class="active lang-btn">English</button>
+        <button data-set-lang="et" class="lang-btn">Eesti</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== SCRIPTS ============== -->
+  <script>
+    /*EDITMODE-BEGIN*/const TWEAK_DEFAULTS = {
+      "accent": "#B04A2A",
+      "rule": "dense",
+      "lang": "en"
+    }/*EDITMODE-END*/;
+
+    // ---------- SECTION SEAM ----------
+    // Three hairlines + a centered accent diamond. Original, sparse — used only between sections.
+    function seamSVG() {
+      return `
+        <svg class="seam" viewBox="0 0 1200 18" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="3"  x2="1200" y2="3"  stroke="#1B1714" stroke-opacity="0.85" stroke-width="1"/>
+          <line x1="0" y1="9"  x2="1200" y2="9"  stroke="#1B1714" stroke-opacity="0.30" stroke-width="1"/>
+          <line x1="0" y1="15" x2="1200" y2="15" stroke="#1B1714" stroke-opacity="0.85" stroke-width="1"/>
+          <rect x="594" y="3" width="12" height="12" transform="rotate(45 600 9)" fill="var(--accent)"/>
+        </svg>`;
+    }
+    function applyRules(mode) {
+      ['rule-1','rule-2','rule-3','rule-4','rule-footer'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (mode === 'off') { el.innerHTML = '<div style="height:1px;background:rgba(27,23,20,0.12)"></div>'; return; }
+        el.innerHTML = seamSVG();
+        const svg = el.querySelector('svg');
+        if (mode === 'subtle') svg.style.opacity = '0.55';
+        else svg.style.opacity = '1';
+      });
+    }
+
+    // ---------- GALLERY ----------
+    // OWNER: drop real images here. Each entry can be either:
+    //   { src: 'work-01.jpg', alt: 'Skin fade by Jay', caption: 'Mid skin fade · Jay', span: 'wide' }
+    // or a placeholder:
+    //   { placeholder: '// work-01.jpg — fade detail, top-down, 1200×1500', caption: '…', span: 'wide' }
+    // 'span' values: 'wide' (col-span-2), 'tall' (row-span-2), undefined (1×1).
+    const galleryImages = [
+      { src: 'images/gallery/work-16.jpg', alt: 'Recent cut by Jay', caption: 'Recent work',            span: 'tall' },
+      { src: 'images/gallery/work-15.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-14.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-13.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-12.jpg', alt: 'Cut by Jay',        caption: 'From the chair',         span: 'wide' },
+      { src: 'images/gallery/work-11.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-10.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-09.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-08.jpg', alt: 'Cut by Jay',        caption: 'From the chair',         span: 'tall' },
+      { src: 'images/gallery/work-07.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-06.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-05.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-04.jpg', alt: 'Cut by Jay',        caption: 'From the chair',         span: 'wide' },
+      { src: 'images/gallery/work-03.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-02.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+      { src: 'images/gallery/work-01.jpg', alt: 'Cut by Jay',        caption: 'From the chair' },
+    ];
+    const galleryGrid = document.getElementById('gallery-grid');
+    galleryImages.forEach((g, i) => {
+      const aspect = g.span === 'wide' ? 'aspect-[16/10]' :
+                     g.span === 'tall' ? 'aspect-[4/5]'   :
+                     'aspect-square';
+      const span = g.span === 'wide' ? 'md:col-span-2' :
+                   g.span === 'tall' ? 'md:row-span-2 md:row-end-auto' : '';
+      const item = document.createElement('button');
+      item.className = `gallery-item group relative ${aspect} ${span} text-left`;
+      item.dataset.idx = i;
+      item.setAttribute('aria-label', g.caption || 'Gallery image');
+      item.innerHTML = g.src
+        ? `<img loading="lazy" src="${g.src}" alt="${g.alt || g.caption || ''}" class="absolute inset-0 w-full h-full object-cover"/>`
+        : `<div class="photo-slot absolute inset-0" data-img="${g.placeholder}"></div>`;
+      item.innerHTML += `<div class="absolute left-3 bottom-3 right-3 flex items-center justify-between text-[11px] font-mono text-cream-50/0 group-hover:text-cream-50/95 transition-colors mix-blend-difference">
+        <span>${String(i+1).padStart(2,'0')}</span><span>${g.caption || ''}</span>
+      </div>`;
+      galleryGrid.appendChild(item);
+    });
+
+    // ---------- LIGHTBOX ----------
+    const lb = document.getElementById('lightbox');
+    let lbIdx = 0;
+    function showLB(i) {
+      lbIdx = (i + galleryImages.length) % galleryImages.length;
+      const g = galleryImages[lbIdx];
+      const slot = document.getElementById('lightbox-slot');
+      slot.outerHTML = g.src
+        ? `<img id="lightbox-slot" src="${g.src}" alt="${g.alt || ''}" class="aspect-[4/5] w-full object-cover"/>`
+        : `<div id="lightbox-slot" class="photo-slot aspect-[4/5] w-full" data-img="${g.placeholder}"></div>`;
+      document.getElementById('lb-count').textContent = `${lbIdx+1} / ${galleryImages.length} — ${g.caption || ''}`;
+      lb.classList.remove('hidden'); lb.classList.add('flex');
+    }
+    function hideLB() { lb.classList.add('hidden'); lb.classList.remove('flex'); }
+    document.getElementById('gallery-grid').addEventListener('click', e => {
+      const btn = e.target.closest('.gallery-item');
+      if (btn) showLB(parseInt(btn.dataset.idx,10));
+    });
+    document.getElementById('lightbox-close').addEventListener('click', hideLB);
+    document.getElementById('lb-prev').addEventListener('click', () => showLB(lbIdx-1));
+    document.getElementById('lb-next').addEventListener('click', () => showLB(lbIdx+1));
+    document.addEventListener('keydown', e => {
+      if (lb.classList.contains('hidden')) return;
+      if (e.key === 'Escape') hideLB();
+      if (e.key === 'ArrowLeft') showLB(lbIdx-1);
+      if (e.key === 'ArrowRight') showLB(lbIdx+1);
+    });
+
+    // ---------- LANGUAGE ----------
+    function setLang(l) {
+      document.body.dataset.lang = l;
+      document.documentElement.lang = l;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.setLang === l));
+      sendEdit({ lang: l });
+    }
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.addEventListener('click', () => setLang(b.dataset.setLang));
+    });
+
+    // ---------- ACCENT ----------
+    function setAccent(c) {
+      document.documentElement.style.setProperty('--accent', c);
+      document.querySelectorAll('.swatch').forEach(s => s.classList.toggle('active', s.dataset.accent === c));
+      sendEdit({ accent: c });
+    }
+    document.querySelectorAll('.swatch').forEach(s => s.addEventListener('click', () => setAccent(s.dataset.accent)));
+
+    // ---------- RULE INTENSITY ----------
+    function setRule(mode) {
+      applyRules(mode);
+      document.querySelectorAll('.tweaks [data-rule]').forEach(b => b.classList.toggle('active', b.dataset.rule === mode));
+      sendEdit({ rule: mode });
+    }
+    document.querySelectorAll('.tweaks [data-rule]').forEach(b => b.addEventListener('click', () => setRule(b.dataset.rule)));
+
+    // ---------- TWEAKS PROTOCOL ----------
+    const tweaks = document.getElementById('tweaks');
+    function openTweaks() { tweaks.classList.add('open'); }
+    function closeTweaks() {
+      tweaks.classList.remove('open');
+      try { window.parent.postMessage({type:'__edit_mode_dismissed'}, '*'); } catch(e){}
+    }
+    document.getElementById('tweaks-close').addEventListener('click', closeTweaks);
+    function sendEdit(edits) {
+      try { window.parent.postMessage({type:'__edit_mode_set_keys', edits}, '*'); } catch(e){}
+    }
+    window.addEventListener('message', (e) => {
+      const d = e.data || {};
+      if (d.type === '__activate_edit_mode') openTweaks();
+      else if (d.type === '__deactivate_edit_mode') tweaks.classList.remove('open');
+    });
+    try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
+
+    // ---------- INIT ----------
+    document.getElementById('year').textContent = new Date().getFullYear();
+    setAccent(TWEAK_DEFAULTS.accent);
+    setRule(TWEAK_DEFAULTS.rule);
+    setLang(TWEAK_DEFAULTS.lang);
+  </script>
+</body>
+</html>
